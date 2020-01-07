@@ -2,12 +2,18 @@ package by.enolizard.paginglibrary
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import by.enolizard.paginglibrary.api.response.FeedsPage
+import by.enolizard.paginglibrary.base.DiffUtilCallback
+import by.enolizard.paginglibrary.base.DiffUtilItemCallback
 import by.enolizard.paginglibrary.databinding.FeedItemBinding
 
-class FeedListAdapter
-    : RecyclerView.Adapter<FeedListAdapter.ViewHolder>() {
+class FeedListAdapter : PagedListAdapter<FeedsPage.Article, FeedListAdapter.ViewHolder>(
+    DiffUtilItemCallback { it: FeedsPage.Article -> it.url }
+) {
 
+    private val items: List<FeedsPage.Article> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -16,17 +22,17 @@ class FeedListAdapter
     }
 
     override fun getItemCount(): Int {
-        return 0
+        return items.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(items[position])
     }
 
-    class ViewHolder(val binding: FeedItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: FeedItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind() {
-            binding.tvMessage.text = "who are you?"
+        fun bind(item: FeedsPage.Article) {
+            binding.tvMessage.text = item.title
         }
     }
 }

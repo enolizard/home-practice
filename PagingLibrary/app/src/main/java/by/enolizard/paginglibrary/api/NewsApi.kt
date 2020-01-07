@@ -8,8 +8,6 @@ import retrofit2.http.Query
 
 interface NewsApi {
 
-    //https://newsapi.org/v2/everything?q=movies&pageSize=20&page=2&apiKey={yourkey}
-
     @GET(value = "v2/everything")
     fun getFeeds(
         @Query("q") q: String,
