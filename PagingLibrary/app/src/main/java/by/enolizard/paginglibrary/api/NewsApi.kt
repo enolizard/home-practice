@@ -1,8 +1,7 @@
 package by.enolizard.paginglibrary.api
 
 import by.enolizard.paginglibrary.api.response.FeedsPage
-import okhttp3.ResponseBody
-import retrofit2.Call
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,5 +13,5 @@ interface NewsApi {
         @Query("apiKey") apiKey: String,
         @Query("page") page: Long,
         @Query("pageSize") pageSize: Int
-    ): Call<FeedsPage>
+    ): Single<FeedsPage>
 }

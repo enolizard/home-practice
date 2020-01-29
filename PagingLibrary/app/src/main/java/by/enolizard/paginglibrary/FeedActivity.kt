@@ -1,18 +1,18 @@
 package by.enolizard.paginglibrary
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.enolizard.paginglibrary.api.response.FeedsPage
 import by.enolizard.paginglibrary.databinding.FeedActivityBinding
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import javax.inject.Inject
 
 class FeedActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FeedActivityBinding
     private lateinit var viewModel: FeedViewModel
@@ -21,31 +21,26 @@ class FeedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = FeedActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
+
+        (application as App).appComponent.inject(this)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(FeedViewModel::class.java)
 
         setupListeners()
     }
 
     private fun setupListeners() {
+        val feedListAdapter = UnpagedListAdapter()
+
         with(binding.rvFeeds) {
-            adapter = FeedListAdapter();
+            adapter = feedListAdapter;
             layoutManager = LinearLayoutManager(this@FeedActivity)
             setHasFixedSize(true)
         }
 
-        App.api.getFeeds(
-            "movies",
-            "a18675c1319c4745b13fc3b0f06e382d"
-            , 1, 10
-        ).enqueue(object : Callback<FeedsPage> {
-            override fun onFailure(call: Call<FeedsPage>, t: Throwable) {
-            }
-
-            override fun onResponse(call: Call<FeedsPage>, response: Response<FeedsPage>) {
-            }
-
+        viewModel.feeds.observe(this, Observer {
+            feedListAdapter.setData(it)
         })
-
 
     }
 }
