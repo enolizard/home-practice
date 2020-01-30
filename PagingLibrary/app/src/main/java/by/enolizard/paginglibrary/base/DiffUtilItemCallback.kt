@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 
 @SuppressLint("DiffUtilEquals")
-class DiffUtilItemCallback<T, R >(
+class DiffUtilItemCallback<T, R>(
     private val itemsTheSameSelector: (T) -> R
 ) : DiffUtil.ItemCallback<T>() {
 

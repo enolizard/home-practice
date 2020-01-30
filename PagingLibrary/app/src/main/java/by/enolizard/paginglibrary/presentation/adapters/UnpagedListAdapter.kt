@@ -1,23 +1,22 @@
-package by.enolizard.paginglibrary
+package by.enolizard.paginglibrary.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.enolizard.paginglibrary.api.response.Article
-import by.enolizard.paginglibrary.base.DiffUtilItemCallback
 import by.enolizard.paginglibrary.databinding.FeedItemBinding
 
-class FeedListAdapter : PagedListAdapter<Article, FeedListAdapter.ViewHolder>(
-    DiffUtilItemCallback { it: Article -> it.url }
-) {
+class UnpagedListAdapter
+    : RecyclerView.Adapter<UnpagedListAdapter.ViewHolder>() {
 
-    private val items: List<Article> = arrayListOf()
+    private val items: MutableList<Article> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = FeedItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(
+            binding
+        )
     }
 
     override fun getItemCount(): Int {
@@ -26,6 +25,12 @@ class FeedListAdapter : PagedListAdapter<Article, FeedListAdapter.ViewHolder>(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+    }
+
+    fun setData(it: List<Article>) {
+        items.clear()
+        items.addAll(it)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(private val binding: FeedItemBinding) : RecyclerView.ViewHolder(binding.root) {

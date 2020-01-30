@@ -1,4 +1,4 @@
-package by.enolizard.paginglibrary
+package by.enolizard.paginglibrary.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +20,7 @@ class FeedViewModel @Inject constructor(
         val k = api.getFeeds(
             "movies",
             "a18675c1319c4745b13fc3b0f06e382d"
-            , 1, 10
+            , 1, 100
         ).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({ it ->

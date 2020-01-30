@@ -1,12 +1,16 @@
-package by.enolizard.paginglibrary
+package by.enolizard.paginglibrary.presentation.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.enolizard.paginglibrary.App
 import by.enolizard.paginglibrary.databinding.FeedActivityBinding
+import by.enolizard.paginglibrary.presentation.adapters.UnpagedListAdapter
+import by.enolizard.paginglibrary.presentation.viewmodels.FeedViewModel
 import javax.inject.Inject
 
 class FeedActivity : AppCompatActivity() {
@@ -36,6 +40,11 @@ class FeedActivity : AppCompatActivity() {
             adapter = feedListAdapter;
             layoutManager = LinearLayoutManager(this@FeedActivity)
             setHasFixedSize(true)
+        }
+
+        binding.btnNext.setOnClickListener {
+            val int = Intent(this, WorkActivity::class.java)
+            startActivity(int)
         }
 
         viewModel.feeds.observe(this, Observer {
