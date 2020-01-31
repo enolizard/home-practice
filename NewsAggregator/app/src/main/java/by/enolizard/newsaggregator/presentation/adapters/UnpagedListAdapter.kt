@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.enolizard.newsaggregator.api.response.Article
 import by.enolizard.newsaggregator.databinding.FeedItemBinding
+import com.squareup.picasso.Picasso
 
 class UnpagedListAdapter
     : RecyclerView.Adapter<UnpagedListAdapter.ViewHolder>() {
@@ -36,7 +37,12 @@ class UnpagedListAdapter
     class ViewHolder(private val binding: FeedItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Article) {
-            binding.tvMessage.text = item.title
+            binding.tvMsg.text = item.description
+            binding.tvTitle.text = item.title
+            Picasso.get()
+                .load(item.urlToImage)
+                .noFade()
+                .into(binding.ivPhoto)
         }
     }
 }

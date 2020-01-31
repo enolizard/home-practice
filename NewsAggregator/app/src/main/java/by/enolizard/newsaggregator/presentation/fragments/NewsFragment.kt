@@ -5,16 +5,53 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import by.enolizard.newsaggregator.R
-import by.enolizard.newsaggregator.presentation.inflate
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import by.enolizard.newsaggregator.App
+import by.enolizard.newsaggregator.databinding.NewsFragmentBinding
+import by.enolizard.newsaggregator.presentation.adapters.UnpagedListAdapter
+import by.enolizard.newsaggregator.presentation.viewmodels.NewsViewModel
+import javax.inject.Inject
 
-class NewsFragment : Fragment(){
+class NewsFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var binding: NewsFragmentBinding
+    private lateinit var viewModel: NewsViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return container?.inflate(R.layout.fragment_news)
-        //return super.onCreateView(inflater, container, savedInstanceState)
+        binding = NewsFragmentBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity!!.application as App).appComponent.inject(this)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(NewsViewModel::class.java)
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        val feedListAdapter = UnpagedListAdapter()
+
+        with(binding.rvFeeds) {
+            adapter = feedListAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+
+        viewModel.feeds.observe(viewLifecycleOwner, Observer {
+            feedListAdapter.setData(it)
+        })
+
     }
 }

@@ -1,9 +1,9 @@
 package by.enolizard.newsaggregator.di
 
 import android.app.Application
-import by.enolizard.newsaggregator.presentation.activities.FeedActivity
 import by.enolizard.newsaggregator.di.modules.ApiModule
 import by.enolizard.newsaggregator.di.modules.ViewModelModule
+import by.enolizard.newsaggregator.presentation.fragments.NewsFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -27,5 +27,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun inject(feedActivity: FeedActivity)
+    fun inject(newsFragment: NewsFragment)
 }

@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class FeedViewModel @Inject constructor(
+class NewsViewModel @Inject constructor(
     private val api: NewsApi
 ) : ViewModel() {
     private val _feeds = MutableLiveData<List<Article>>()

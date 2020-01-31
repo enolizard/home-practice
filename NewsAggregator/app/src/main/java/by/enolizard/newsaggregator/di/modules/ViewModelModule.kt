@@ -2,7 +2,7 @@ package by.enolizard.newsaggregator.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import by.enolizard.newsaggregator.presentation.viewmodels.FeedViewModel
+import by.enolizard.newsaggregator.presentation.viewmodels.NewsViewModel
 import by.enolizard.newsaggregator.di.singletons.ViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -26,8 +26,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(FeedViewModel::class)
-    abstract fun productViewModel(viewModel: FeedViewModel): ViewModel
+    @ViewModelKey(NewsViewModel::class)
+    abstract fun productNewsViewModel(viewModel: NewsViewModel): ViewModel
 }
 
 
