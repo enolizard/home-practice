@@ -20,7 +20,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "BASE_URL", '"https://newsapi.org/"'
+            buildConfigField "String", "API_URL", '"https://newsapi.org/"'
+            buildConfigField "String", "API_TOKEN", '"a18675c1319c4745b13fc3b0f06e382d"'
         }
     }
     dataBinding {
@@ -45,7 +46,7 @@ dependencies {
 
     // Android Architecture Components
     // Paging
-    implementation 'android.arch.paging:runtime:1.0.0-rc02'
+    implementation "androidx.paging:paging-runtime-ktx:2.1.1"
     // Lifecycle, ViewModel, LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
     // Fragment Container View

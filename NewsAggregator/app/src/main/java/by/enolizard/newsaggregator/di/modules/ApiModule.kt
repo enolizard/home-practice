@@ -2,6 +2,7 @@ package by.enolizard.newsaggregator.di.modules
 
 import android.app.Application
 import by.enolizard.newsaggregator.BuildConfig
+import by.enolizard.newsaggregator.api.AuthInterceptor
 import by.enolizard.newsaggregator.api.NewsApi
 import dagger.Module
 import dagger.Provides
@@ -34,17 +35,16 @@ class ApiModule {
 
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                }
+                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
             )
         }
 
-        return builder
-            .cache(cache)
+        return builder.cache(cache)
+            .addInterceptor(AuthInterceptor())
             .connectTimeout(5, TimeUnit.SECONDS)
             .readTimeout(7, TimeUnit.SECONDS)
             .build()
+
     }
 
     @Provides
@@ -53,7 +53,7 @@ class ApiModule {
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.API_URL)
             .client(client)
             .build()
             .create(NewsApi::class.java)

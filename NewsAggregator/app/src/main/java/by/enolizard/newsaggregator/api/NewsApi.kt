@@ -10,8 +10,9 @@ interface NewsApi {
     @GET(value = "v2/everything")
     fun getFeeds(
         @Query("q") q: String,
-        @Query("apiKey") apiKey: String,
-        @Query("page") page: Long,
-        @Query("pageSize") pageSize: Int
+//        @Query("apiKey") apiKey: String,
+//        @Query("pageSize") pageSize: Int,
+        @Query("page") page: Int
+
     ): Single<FeedsPage>
 }
