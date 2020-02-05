@@ -1,9 +1,9 @@
 package by.enolizard.newsaggregator.base
 
-class State<T>(
-    val status: T,
-    val error: Throwable? = null
-)
+sealed class State
 
-enum class Status { LOADING, SUCCESS, ERROR }
-enum class StatusWithEmpty { LOADING, SUCCESS, ERROR, EMPTY }
+object Loading : State()
+object Success : State()
+class Error(val error: Throwable) : State()
+class Data<T>(val data: T) : State()
+object EmptyData : State()

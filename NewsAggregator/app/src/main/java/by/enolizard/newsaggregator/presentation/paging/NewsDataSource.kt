@@ -1,12 +1,11 @@
 package by.enolizard.newsaggregator.presentation.paging
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import by.enolizard.newsaggregator.api.NewsApi
 import by.enolizard.newsaggregator.api.response.Article
-import by.enolizard.newsaggregator.base.State
-import by.enolizard.newsaggregator.base.Status
-import by.enolizard.newsaggregator.base.StatusWithEmpty
+import by.enolizard.newsaggregator.base.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,16 +15,20 @@ class NewsDataSource(
 ) : PageKeyedDataSource<Int, Article>() {
 
     private val rxBag = CompositeDisposable()
-    private val paginatedNetworkState = MutableLiveData<State<Status>>()
-    private val initialNetworkState = MutableLiveData<State<StatusWithEmpty>>()
+    private val _paginatedState = MutableLiveData<State>()
+    private val _initialState = MutableLiveData<State>()
     private var retry: (() -> Any)? = null
+
+    val paginatedState: LiveData<State> get() = _paginatedState
+    val initialState: LiveData<State> get() = _initialState
 
     fun retryAreFailed() {
         retry?.invoke()
         retry = null
     }
 
-    fun clear() {
+    override fun invalidate() {
+        super.invalidate()
         rxBag.clear()
     }
 
@@ -33,34 +36,34 @@ class NewsDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, Article>
     ) {
-        initialNetworkState.postValue(State(StatusWithEmpty.LOADING))
+        _initialState.postValue(Loading)
 
-        val initialLoading = newsApi.getFeeds("bitcoin", 0)
+        val initialLoading = newsApi.getFeeds("bitcoin", 1)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 callback.onResult(it.articles, null, 1)
-                if (it.totalCount == 0) initialNetworkState.postValue(State(StatusWithEmpty.SUCCESS))
-                else initialNetworkState.postValue(State(StatusWithEmpty.EMPTY))
+                if (it.totalCount == 0) _initialState.postValue(Data(it.totalCount))
+                else _initialState.postValue(EmptyData)
             }, {
                 retry = { loadInitial(params, callback) }
-                initialNetworkState.postValue(State(StatusWithEmpty.ERROR, it))
+                _initialState.postValue(Error(it))
             })
         rxBag.add(initialLoading)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
-        paginatedNetworkState.postValue(State(Status.LOADING))
+        _paginatedState.postValue(Loading)
 
         val rangeLoading = newsApi.getFeeds("bitcoin", params.key)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 callback.onResult(it.articles, params.key + 1)
-                paginatedNetworkState.postValue(State(Status.SUCCESS))
+                _paginatedState.postValue(Success)
             }, {
                 retry = { loadAfter(params, callback) }
-                paginatedNetworkState.postValue(State(Status.ERROR, it))
+                _paginatedState.postValue(Error(it))
             })
         rxBag.add(rangeLoading)
     }

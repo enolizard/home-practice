@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.enolizard.newsaggregator.App
 import by.enolizard.newsaggregator.databinding.NewsFragmentBinding
-import by.enolizard.newsaggregator.presentation.adapters.UnpagedListAdapter
+import by.enolizard.newsaggregator.presentation.adapters.FeedsPagedAdapter
 import by.enolizard.newsaggregator.presentation.viewmodels.NewsViewModel
 import javax.inject.Inject
 
@@ -41,7 +41,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        val feedListAdapter = UnpagedListAdapter()
+        val feedListAdapter = FeedsPagedAdapter()
 
         with(binding.rvFeeds) {
             adapter = feedListAdapter
@@ -50,7 +50,7 @@ class NewsFragment : Fragment() {
         }
 
         viewModel.feeds.observe(viewLifecycleOwner, Observer {
-            feedListAdapter.setData(it)
+            feedListAdapter.submitList(it)
         })
 
     }

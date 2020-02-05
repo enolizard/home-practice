@@ -15,6 +15,5 @@ class SettingsFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         return container?.inflate(R.layout.fragment_settings)
-        //return super.onCreateView(inflater, container, savedInstanceState)
     }
 }

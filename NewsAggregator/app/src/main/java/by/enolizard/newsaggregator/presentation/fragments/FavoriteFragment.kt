@@ -15,6 +15,5 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return container?.inflate(R.layout.fragment_favorite)
-        //return super.onCreateView(inflater, container, savedInstanceState)
     }
 }
