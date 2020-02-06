@@ -7,6 +7,7 @@ import by.enolizard.newsaggregator.base.PagingState
 import by.enolizard.newsaggregator.base.PagingState.*
 import by.enolizard.newsaggregator.databinding.PagingItemBinding
 import by.enolizard.newsaggregator.presentation.gone
+import by.enolizard.newsaggregator.presentation.invisible
 import by.enolizard.newsaggregator.presentation.visible
 
 class PagingHolder(
@@ -24,13 +25,12 @@ class PagingHolder(
                 throw IllegalArgumentException()
             }
             Loading -> {
-                binding.tvMsg.gone()
-                binding.tvRetry.gone()
+                binding.tvMsg.invisible()
+                binding.tvRetry.invisible()
                 binding.pbLoading.visible()
             }
             is Error -> {
-                binding.tvMsg.text = state.msg
-                binding.pbLoading.gone()
+                binding.pbLoading.invisible()
                 binding.tvMsg.visible()
                 binding.tvRetry.visible()
             }

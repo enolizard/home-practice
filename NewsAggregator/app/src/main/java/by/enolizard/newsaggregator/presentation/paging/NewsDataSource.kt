@@ -6,20 +6,22 @@ import androidx.paging.PageKeyedDataSource
 import by.enolizard.newsaggregator.api.NewsApi
 import by.enolizard.newsaggregator.api.response.Feed
 import by.enolizard.newsaggregator.base.*
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class NewsDataSource(
     private val newsApi: NewsApi
 ) : PageKeyedDataSource<Int, Feed>() {
 
     private val rxBag = CompositeDisposable()
-    private val _paginatedState = MutableLiveData<State>()
+    private val _paginatedState = MutableLiveData<PagingState>()
     private val _initialState = MutableLiveData<State>()
     private var retry: (() -> Any)? = null
 
-    val paginatedState: LiveData<State> get() = _paginatedState
+    val paginatedState: LiveData<PagingState> get() = _paginatedState
     val initialState: LiveData<State> get() = _initialState
 
     fun retryAreFailed() {
@@ -38,7 +40,7 @@ class NewsDataSource(
     ) {
         _initialState.postValue(State.Loading)
 
-        val initialLoading = newsApi.getFeeds("bitcoin", 1,15)
+        val initialLoading = newsApi.getFeeds("bitcoin", 1, 15)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -53,17 +55,17 @@ class NewsDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Feed>) {
-        _paginatedState.postValue(State.Loading)
+        _paginatedState.postValue(PagingState.Loading)
 
-        val rangeLoading = newsApi.getFeeds("bitcoin", params.key,15)
+        val rangeLoading = newsApi.getFeeds("bitcoin", params.key, 15)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 callback.onResult(it.feeds, params.key + 1)
-                _paginatedState.postValue(State.Success)
+                _paginatedState.postValue(PagingState.Gone)
             }, {
                 retry = { loadAfter(params, callback) }
-                _paginatedState.postValue(State.Error(it))
+                _paginatedState.postValue(PagingState.Error(it))
             })
         rxBag.add(rangeLoading)
     }

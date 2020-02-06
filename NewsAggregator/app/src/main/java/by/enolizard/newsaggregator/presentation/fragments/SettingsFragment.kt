@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import by.enolizard.newsaggregator.R
 import by.enolizard.newsaggregator.presentation.inflate
 
-class SettingsFragment : Fragment(){
+class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.enolizard.newsaggregator.api.response.Feed
 import by.enolizard.newsaggregator.databinding.FeedItemBinding
-import by.enolizard.newsaggregator.presentation.gone
 import com.squareup.picasso.Picasso
 
 class FeedHolder private constructor(

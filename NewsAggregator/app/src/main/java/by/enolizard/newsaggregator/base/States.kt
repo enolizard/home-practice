@@ -11,6 +11,6 @@ sealed class State {
 
 sealed class PagingState {
     object Loading : PagingState()
-    class Error(val msg: String) : PagingState()
+    class Error(val e: Throwable) : PagingState()
     object Gone : PagingState()
 }
