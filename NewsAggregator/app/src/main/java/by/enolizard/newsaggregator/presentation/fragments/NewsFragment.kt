@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.enolizard.newsaggregator.App
+import by.enolizard.newsaggregator.base.PagingState
+import by.enolizard.newsaggregator.base.State
 import by.enolizard.newsaggregator.databinding.NewsFragmentBinding
 import by.enolizard.newsaggregator.presentation.adapters.FeedsPagedAdapter
 import by.enolizard.newsaggregator.presentation.viewmodels.NewsViewModel
@@ -41,13 +43,25 @@ class NewsFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        val feedListAdapter = FeedsPagedAdapter()
+        val feedListAdapter = FeedsPagedAdapter { viewModel.retry() }
 
         with(binding.rvFeeds) {
             adapter = feedListAdapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
+
+        viewModel.paginatedState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                State.Loading -> feedListAdapter.updateState(PagingState.Loading)
+                State.Success -> feedListAdapter.updateState(PagingState.Gone)
+                is State.Error -> feedListAdapter.updateState(
+                    PagingState.Error(
+                        it.error.message ?: "Loading error"
+                    )
+                )
+            }
+        })
 
         viewModel.feeds.observe(viewLifecycleOwner, Observer {
             feedListAdapter.submitList(it)

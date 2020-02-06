@@ -8,7 +8,7 @@ import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import by.enolizard.newsaggregator.api.NewsApi
-import by.enolizard.newsaggregator.api.response.Article
+import by.enolizard.newsaggregator.api.response.Feed
 import by.enolizard.newsaggregator.base.Listing
 import by.enolizard.newsaggregator.base.State
 import by.enolizard.newsaggregator.presentation.paging.NewsDataSourceFactory
@@ -18,9 +18,9 @@ class NewsViewModel @Inject constructor(
     private val api: NewsApi
 ) : ViewModel() {
 
-    private val result = MutableLiveData<Listing<Article>>()
+    private val result = MutableLiveData<Listing<Feed>>()
 
-    val feeds: LiveData<PagedList<Article>> = switchMap(result) { it.pagedList }
+    val feeds: LiveData<PagedList<Feed>> = switchMap(result) { it.pagedList }
     val initialState: LiveData<State> = switchMap(result) { it.initialState }
     val paginatedState: LiveData<State> = switchMap(result) { it.paginatedState }
 
@@ -28,20 +28,23 @@ class NewsViewModel @Inject constructor(
         loadNews()
     }
 
+    fun retry(){
+        result.value?.retry?.invoke()
+    }
+
     private fun loadNews() {
         val sourceFactory = NewsDataSourceFactory(api)
 
-        val pagedListConfig = Config(pageSize = 20, enablePlaceholders = false)
+        val pagedListConfig = Config(pageSize = 15, enablePlaceholders = false)
 
         val livePagedList = sourceFactory.toLiveData(pagedListConfig)
 
-        val listing =
-            Listing(
-                pagedList = livePagedList,
-                initialState = switchMap(sourceFactory.sourceLiveData) { it.initialState },
-                paginatedState = switchMap(sourceFactory.sourceLiveData) { it.paginatedState },
-                retry = { sourceFactory.sourceLiveData.value?.retryAreFailed() }
-            )
+        val listing = Listing(
+            pagedList = livePagedList,
+            initialState = switchMap(sourceFactory.sourceLiveData) { it.initialState },
+            paginatedState = switchMap(sourceFactory.sourceLiveData) { it.paginatedState },
+            retry = { sourceFactory.sourceLiveData.value?.retryAreFailed() }
+        )
 
         result.value = listing
     }
