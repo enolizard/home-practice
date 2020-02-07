@@ -5,12 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import by.enolizard.newsaggregator.api.NewsApi
 import by.enolizard.newsaggregator.api.response.Feed
-import by.enolizard.newsaggregator.base.*
-import io.reactivex.Single
+import by.enolizard.newsaggregator.base.PagingState
+import by.enolizard.newsaggregator.base.State
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 class NewsDataSource(
     private val newsApi: NewsApi

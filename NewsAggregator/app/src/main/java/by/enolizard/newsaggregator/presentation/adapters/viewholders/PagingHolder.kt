@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import by.enolizard.newsaggregator.base.PagingState
 import by.enolizard.newsaggregator.base.PagingState.*
 import by.enolizard.newsaggregator.databinding.PagingItemBinding
-import by.enolizard.newsaggregator.presentation.gone
 import by.enolizard.newsaggregator.presentation.invisible
 import by.enolizard.newsaggregator.presentation.visible
 
@@ -16,7 +15,11 @@ class PagingHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.tvRetry.setOnClickListener { onRetryClick() }
+        binding.tvRetry.setOnClickListener {
+            binding.tvMsg.invisible()
+            binding.tvRetry.invisible()
+            onRetryClick()
+        }
     }
 
     fun bind(state: PagingState) {

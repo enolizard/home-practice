@@ -4,17 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.enolizard.newsaggregator.App
 import by.enolizard.newsaggregator.base.PagingState
-import by.enolizard.newsaggregator.base.State
 import by.enolizard.newsaggregator.databinding.NewsFragmentBinding
 import by.enolizard.newsaggregator.presentation.adapters.FeedsPagedAdapter
 import by.enolizard.newsaggregator.presentation.showToast
@@ -43,6 +39,7 @@ class NewsFragment : Fragment() {
         (activity!!.application as App).appComponent.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(NewsViewModel::class.java)
+
         setupListeners()
     }
 
@@ -64,6 +61,5 @@ class NewsFragment : Fragment() {
         viewModel.feeds.observe(viewLifecycleOwner, Observer {
             feedListAdapter.submitList(it)
         })
-
     }
 }
