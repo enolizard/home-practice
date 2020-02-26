@@ -12,10 +12,12 @@ import by.enolizard.newsaggregator.presentation.adapters.viewholders.FeedHolder
 import by.enolizard.newsaggregator.presentation.adapters.viewholders.PagingHolder
 
 class FeedsPagedAdapter(
-    private val onRetryClick: () -> Unit
+    private val onRetryClick: () -> Unit,
+    private val onItemClick: (item: Feed?) -> Unit
 ) : PagedListAdapter<Feed, RecyclerView.ViewHolder>(COMPARATOR) {
 
     private var pagingState: PagingState = Gone
+private val onItemsClick: ()-> = { onItemClick(getItem(it)) }
 
     fun updateState(newState: PagingState) {
         val previousState = this.pagingState
@@ -39,7 +41,9 @@ class FeedsPagedAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            R.layout.item_feed -> FeedHolder.create(parent)
+            R.layout.item_feed -> FeedHolder.create(
+                parent,
+                onSpeechClick = )
             R.layout.item_paging -> PagingHolder.create(parent, onRetryClick)
             else -> throw IllegalArgumentException()
         }

@@ -12,63 +12,100 @@
         app:cardBackgroundColor="#FFF"
         app:cardCornerRadius="4dp"
         app:cardElevation="5dp"
-        app:cardUseCompatPadding="false">
+        app:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/iv_source_photo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_source_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="#7e3ff2"
+                android:textSize="14sp"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toStartOf="@id/btn_speech"
+                app:layout_constraintStart_toEndOf="@+id/iv_source_photo"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Sourcsdfas adsf asdf adss fsadf asd fasdf as f comp" />
+
+            <TextView
+                android:id="@+id/tv_published_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toEndOf="@+id/iv_source_photo"
+                app:layout_constraintTop_toBottomOf="@+id/tv_source_name"
+                tools:text="at date" />
+
+            <ImageButton
+                android:id="@+id/btn_speech"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@null"
+                android:padding="4dp"
+                android:src="@drawable/ic_volume_up"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.948"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
-                android:orientation="vertical">
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_source_photo"
+                tools:text="Feed title adsf asdf adsf asdf asdf dsa fads fadsf asdf ads fadsf as" />
 
-                <TextView
-                    android:id="@+id/tv_source_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#7e3ff2"
-                    android:textSize="14sp"
-                    tools:text="Source comp" />
-
-                <TextView
-                    android:id="@+id/tv_published_at"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="italic"
-                    tools:text="at date" />
-
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:text="Feed title" />
-
-                <TextView
-                    android:id="@+id/tv_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    tools:text="Feed Description" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="Feed Description" />
 
 
             <ImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_description"
                 tools:layout_height="100dp"
                 tools:src="@color/colorAccent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 

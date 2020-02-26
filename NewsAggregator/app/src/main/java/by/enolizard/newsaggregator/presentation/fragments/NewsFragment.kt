@@ -1,6 +1,9 @@
 package by.enolizard.newsaggregator.presentation.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +18,7 @@ import by.enolizard.newsaggregator.databinding.NewsFragmentBinding
 import by.enolizard.newsaggregator.presentation.adapters.FeedsPagedAdapter
 import by.enolizard.newsaggregator.presentation.showToast
 import by.enolizard.newsaggregator.presentation.viewmodels.NewsViewModel
+import java.util.*
 import javax.inject.Inject
 
 class NewsFragment : Fragment() {
@@ -24,6 +28,7 @@ class NewsFragment : Fragment() {
 
     private lateinit var binding: NewsFragmentBinding
     private lateinit var viewModel: NewsViewModel
+    private lateinit var textSpeech: TextToSpeech
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +36,12 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = NewsFragmentBinding.inflate(layoutInflater)
+        textSpeech = TextToSpeech(context, TextToSpeech.OnInitListener {
+            if (it != TextToSpeech.ERROR) {
+                textSpeech.setLanguage(Locale.UK);
+            }
+        })
+
         return binding.root
     }
 
@@ -44,7 +55,15 @@ class NewsFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        val feedListAdapter = FeedsPagedAdapter { viewModel.retry() }
+        val feedListAdapter = FeedsPagedAdapter(onRetryClick = { viewModel.retry() },
+        onItemClick = {
+                it?.let {
+                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.url)))
+                textSpeech.speak(it.description, TextToSpeech.QUEUE_FLUSH, null)
+                }
+
+        }
+            )
 
         with(binding.rvFeeds) {
             adapter = feedListAdapter
