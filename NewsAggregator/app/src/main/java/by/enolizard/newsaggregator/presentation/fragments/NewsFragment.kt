@@ -1,7 +1,6 @@
 package by.enolizard.newsaggregator.presentation.fragments
 
-import android.content.Intent
-import android.net.Uri
+import android.graphics.Rect
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
@@ -13,11 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.enolizard.newsaggregator.App
-import by.enolizard.newsaggregator.base.PagingState
+import by.enolizard.newsaggregator.base.PaginatedState
 import by.enolizard.newsaggregator.databinding.NewsFragmentBinding
 import by.enolizard.newsaggregator.presentation.adapters.FeedsPagedAdapter
 import by.enolizard.newsaggregator.presentation.showToast
 import by.enolizard.newsaggregator.presentation.viewmodels.NewsViewModel
+import by.enolizard.newsaggregator.presentation.views.SpaceItemDecoration
 import java.util.*
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class NewsFragment : Fragment() {
 
     private lateinit var binding: NewsFragmentBinding
     private lateinit var viewModel: NewsViewModel
-    private lateinit var textSpeech: TextToSpeech
+    private lateinit var speaker: TextToSpeech
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,12 +36,6 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = NewsFragmentBinding.inflate(layoutInflater)
-        textSpeech = TextToSpeech(context, TextToSpeech.OnInitListener {
-            if (it != TextToSpeech.ERROR) {
-                textSpeech.setLanguage(Locale.UK);
-            }
-        })
-
         return binding.root
     }
 
@@ -51,30 +45,43 @@ class NewsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(NewsViewModel::class.java)
 
+        initTextToSpeech()
         setupListeners()
     }
 
-    private fun setupListeners() {
-        val feedListAdapter = FeedsPagedAdapter(onRetryClick = { viewModel.retry() },
-        onItemClick = {
-                it?.let {
-                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.url)))
-                textSpeech.speak(it.description, TextToSpeech.QUEUE_FLUSH, null)
-                }
-
+    private fun initTextToSpeech() {
+        speaker = TextToSpeech(context) {
+            if (it == TextToSpeech.SUCCESS) {
+                val result = speaker.setLanguage(Locale.ENGLISH)
+                speaker.setPitch(1f);
+                speaker.setSpeechRate(1.3f);
+            }
         }
-            )
+    }
+
+    private fun setupListeners() {
+        val feedListAdapter = FeedsPagedAdapter(
+            onRetryClick = { viewModel.retry() },
+            onItemSpeechClick = {
+                speaker.speak(it?.description, TextToSpeech.QUEUE_FLUSH, null, null)
+            }
+        )
 
         with(binding.rvFeeds) {
             adapter = feedListAdapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
+            addItemDecoration(SpaceItemDecoration(context, Rect(0, 3, 0, 3)))
         }
 
+        viewModel.initialState.observe(viewLifecycleOwner, Observer {
+
+        })
+
         viewModel.paginatedState.observe(viewLifecycleOwner, Observer {
-            if (it is PagingState.Error)
-                context?.showToast(it.e.message ?: "Internet error")
-            feedListAdapter.updateState(it)
+            if (it is PaginatedState.Error)
+                context?.showToast(it.e.message ?: "Unknown error")
+            feedListAdapter.updatePaginatedState(it)
         })
 
         viewModel.feeds.observe(viewLifecycleOwner, Observer {

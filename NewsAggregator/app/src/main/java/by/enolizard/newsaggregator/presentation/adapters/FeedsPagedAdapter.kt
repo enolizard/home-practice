@@ -6,24 +6,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import by.enolizard.newsaggregator.R
 import by.enolizard.newsaggregator.api.response.Feed
-import by.enolizard.newsaggregator.base.PagingState
-import by.enolizard.newsaggregator.base.PagingState.Gone
+import by.enolizard.newsaggregator.base.PaginatedState
+import by.enolizard.newsaggregator.base.PaginatedState.Gone
 import by.enolizard.newsaggregator.presentation.adapters.viewholders.FeedHolder
 import by.enolizard.newsaggregator.presentation.adapters.viewholders.PagingHolder
 
 class FeedsPagedAdapter(
     private val onRetryClick: () -> Unit,
-    private val onItemClick: (item: Feed?) -> Unit
+    onItemSpeechClick: (item: Feed?) -> Unit
 ) : PagedListAdapter<Feed, RecyclerView.ViewHolder>(COMPARATOR) {
 
-    private var pagingState: PagingState = Gone
-private val onItemsClick: ()-> = { onItemClick(getItem(it)) }
+    private var paginatedState: PaginatedState = Gone
+    private val onPositionSpeechClick: (position: Int) -> Unit = { onItemSpeechClick(getItem(it)) }
 
-    fun updateState(newState: PagingState) {
-        val previousState = this.pagingState
+    fun updatePaginatedState(newState: PaginatedState) {
+        val previousState = this.paginatedState
         val hadExtraRow = hasExtraRow()
 
-        this.pagingState = newState
+        this.paginatedState = newState
         val hasExtraRow = hasExtraRow()
 
         if (hadExtraRow != hasExtraRow) {
@@ -37,20 +37,18 @@ private val onItemsClick: ()-> = { onItemClick(getItem(it)) }
         }
     }
 
-    private fun hasExtraRow(): Boolean = pagingState != Gone
+    private fun hasExtraRow(): Boolean = paginatedState != Gone
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            R.layout.item_feed -> FeedHolder.create(
-                parent,
-                onSpeechClick = )
+            R.layout.item_feed -> FeedHolder.create(parent, onPositionSpeechClick = onPositionSpeechClick)
             R.layout.item_paging -> PagingHolder.create(parent, onRetryClick)
             else -> throw IllegalArgumentException()
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            R.layout.item_paging -> (holder as PagingHolder).bind(pagingState)
+            R.layout.item_paging -> (holder as PagingHolder).bind(paginatedState)
             R.layout.item_feed -> (holder as FeedHolder).bind(getItem(position))
         }
     }

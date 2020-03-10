@@ -3,8 +3,8 @@ package by.enolizard.newsaggregator.presentation.adapters.viewholders
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import by.enolizard.newsaggregator.base.PagingState
-import by.enolizard.newsaggregator.base.PagingState.*
+import by.enolizard.newsaggregator.base.PaginatedState
+import by.enolizard.newsaggregator.base.PaginatedState.*
 import by.enolizard.newsaggregator.databinding.PagingItemBinding
 import by.enolizard.newsaggregator.presentation.invisible
 import by.enolizard.newsaggregator.presentation.visible
@@ -22,7 +22,7 @@ class PagingHolder(
         }
     }
 
-    fun bind(state: PagingState) {
+    fun bind(state: PaginatedState) {
         when (state) {
             Gone -> {
                 throw IllegalArgumentException()

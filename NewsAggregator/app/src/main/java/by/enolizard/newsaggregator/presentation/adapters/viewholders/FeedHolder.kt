@@ -30,14 +30,13 @@ class FeedHolder private constructor(
     companion object {
 
         fun create(
-            parent: ViewGroup,
-            attachToRoot: Boolean = false,
-            onSpeechClick: (position: Int) -> Unit
+            parent: ViewGroup, attachToRoot: Boolean = false,
+            onPositionSpeechClick: (position: Int) -> Unit
         ): FeedHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = FeedItemBinding.inflate(layoutInflater, parent, attachToRoot)
 
-            return FeedHolder(binding, onSpeechClick)
+            return FeedHolder(binding, onPositionSpeechClick)
         }
     }
 }

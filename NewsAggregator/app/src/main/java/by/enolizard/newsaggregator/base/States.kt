@@ -9,8 +9,8 @@ sealed class State {
 }
 
 
-sealed class PagingState {
-    object Loading : PagingState()
-    class Error(val e: Throwable) : PagingState()
-    object Gone : PagingState()
+sealed class PaginatedState {
+    object Loading : PaginatedState()
+    class Error(val e: Throwable) : PaginatedState()
+    object Gone : PaginatedState()
 }

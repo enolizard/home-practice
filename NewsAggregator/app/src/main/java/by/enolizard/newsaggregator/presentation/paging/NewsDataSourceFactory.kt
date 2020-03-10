@@ -11,7 +11,9 @@ class NewsDataSourceFactory(
 ) : DataSource.Factory<Int, Feed>() {
 
     private val _sourceLiveData = MutableLiveData<NewsDataSource>()
-    val sourceLiveData: LiveData<NewsDataSource> get() = _sourceLiveData
+
+    val sourceLiveData: LiveData<NewsDataSource>
+        get() = _sourceLiveData
 
     override fun create(): DataSource<Int, Feed> {
         val source = NewsDataSource(newsApi)

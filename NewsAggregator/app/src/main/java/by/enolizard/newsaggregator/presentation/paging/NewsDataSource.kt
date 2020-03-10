@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import by.enolizard.newsaggregator.api.NewsApi
 import by.enolizard.newsaggregator.api.response.Feed
-import by.enolizard.newsaggregator.base.PagingState
+import by.enolizard.newsaggregator.base.PaginatedState
 import by.enolizard.newsaggregator.base.State
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -16,11 +16,11 @@ class NewsDataSource(
 ) : PageKeyedDataSource<Int, Feed>() {
 
     private val rxBag = CompositeDisposable()
-    private val _paginatedState = MutableLiveData<PagingState>()
+    private val _paginatedState = MutableLiveData<PaginatedState>()
     private val _initialState = MutableLiveData<State>()
     private var retry: (() -> Any)? = null
 
-    val paginatedState: LiveData<PagingState> get() = _paginatedState
+    val paginatedState: LiveData<PaginatedState> get() = _paginatedState
     val initialState: LiveData<State> get() = _initialState
 
     fun retryAreFailed() {
@@ -54,17 +54,17 @@ class NewsDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Feed>) {
-        _paginatedState.postValue(PagingState.Loading)
+        _paginatedState.postValue(PaginatedState.Loading)
 
         val rangeLoading = newsApi.getFeeds("bitcoin", params.key, 15)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 callback.onResult(it.feeds, params.key + 1)
-                _paginatedState.postValue(PagingState.Gone)
+                _paginatedState.postValue(PaginatedState.Gone)
             }, {
                 retry = { loadAfter(params, callback) }
-                _paginatedState.postValue(PagingState.Error(it))
+                _paginatedState.postValue(PaginatedState.Error(it))
             })
         rxBag.add(rangeLoading)
     }

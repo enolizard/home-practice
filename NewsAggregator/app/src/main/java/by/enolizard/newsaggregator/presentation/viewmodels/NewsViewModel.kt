@@ -10,7 +10,7 @@ import androidx.paging.toLiveData
 import by.enolizard.newsaggregator.api.NewsApi
 import by.enolizard.newsaggregator.api.response.Feed
 import by.enolizard.newsaggregator.base.Listing
-import by.enolizard.newsaggregator.base.PagingState
+import by.enolizard.newsaggregator.base.PaginatedState
 import by.enolizard.newsaggregator.base.State
 import by.enolizard.newsaggregator.presentation.paging.NewsDataSourceFactory
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class NewsViewModel @Inject constructor(
 
     val feeds: LiveData<PagedList<Feed>> = switchMap(result) { it.pagedList }
     val initialState: LiveData<State> = switchMap(result) { it.initialState }
-    val paginatedState: LiveData<PagingState> = switchMap(result) { it.paginatedState }
+    val paginatedState: LiveData<PaginatedState> = switchMap(result) { it.paginatedState }
 
     init {
         loadNews()
@@ -48,5 +48,9 @@ class NewsViewModel @Inject constructor(
         )
 
         result.value = listing
+    }
+
+    companion object{
+
     }
 }

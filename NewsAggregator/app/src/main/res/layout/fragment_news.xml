@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="LabelFor">
 
     <data class="NewsFragmentBinding" />
 
+<!--    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="?attr/actionBarSize">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="false"
+            android:background="@null"
+            android:inputType="textAutoCorrect"
+            android:text="dfasdfas;dfs;s" />
+    </androidx.appcompat.widget.Toolbar>-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_feeds"
-        tools:listitem="@layout/item_feed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_feed" />
 
 </layout>

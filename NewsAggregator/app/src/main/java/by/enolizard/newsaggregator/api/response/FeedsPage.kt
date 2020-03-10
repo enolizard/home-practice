@@ -50,7 +50,6 @@ class Feed(
 class Source(
     @field:Json(name = "id") val id: String,
     @field:Json(name = "name") val name: String
-
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
