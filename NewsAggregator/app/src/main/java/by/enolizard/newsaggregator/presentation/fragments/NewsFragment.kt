@@ -28,6 +28,7 @@ class NewsFragment : Fragment() {
 
     private lateinit var binding: NewsFragmentBinding
     private lateinit var viewModel: NewsViewModel
+
     private lateinit var speaker: TextToSpeech
 
     override fun onCreateView(
@@ -47,6 +48,16 @@ class NewsFragment : Fragment() {
 
         initTextToSpeech()
         setupListeners()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        speaker.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        speaker.shutdown()
     }
 
     private fun initTextToSpeech() {

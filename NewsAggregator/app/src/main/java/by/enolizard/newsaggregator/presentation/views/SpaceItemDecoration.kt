@@ -12,11 +12,9 @@ class SpaceItemDecoration(
 ) : RecyclerView.ItemDecoration() {
 
     private val outRectPx = context.convertToPx(outRectDp)
+
     override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
+        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom = outRectPx.bottom
