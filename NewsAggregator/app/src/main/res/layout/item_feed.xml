@@ -8,9 +8,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:elevation="4dp"
-        android:background="@drawable/ripple_layout"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_layout_rectangle"
+        android:elevation="4dp">
 
         <ImageView
             android:id="@+id/iv_source_photo"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
-            android:background="@drawable/ripple_layout"
+            android:background="@drawable/ripple_button_oval"
             android:padding="4dp"
             android:src="@drawable/ic_volume_up"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,12 +78,10 @@
             android:id="@+id/tv_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/PrimaryTextAppearance"
-            android:textSize="14sp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
-            android:textColor="#000000"
+            android:textAppearance="@style/PrimaryTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
