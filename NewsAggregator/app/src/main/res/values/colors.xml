@@ -10,6 +10,7 @@
     <!--    <color name="colorAccent">#D81B60</color>-->
     <!--    <color name="secondary">#03DAC5</color>-->
     <!--    <color name="error">#B00020</color>-->
+    <color name="backgroundRipple">#E6E7EB</color>
 
     <color name="titleText">#FFFFFF</color>
     <color name="surfaceText">#6200EE</color>

@@ -33,6 +33,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_feeds"
+            android:background="@color/background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

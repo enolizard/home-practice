@@ -91,7 +91,6 @@ class NewsFragment : Fragment() {
                         startActivity(i)
                     }
                 }
-
             }
         )
 
