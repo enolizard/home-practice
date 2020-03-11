@@ -13,6 +13,7 @@
 
         <TextView
             android:id="@+id/tv_msg"
+            android:textAppearance="@style/PrimaryTextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -21,7 +22,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"
-            android:text="Loading error"
+            android:text="@string/error_network_request"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_retry"
@@ -36,6 +37,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:theme="@style/ProgressBarTheme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,12 +45,13 @@
 
         <TextView
             android:id="@+id/tv_retry"
+            android:textAppearance="@style/ClickableTextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:text="Try again"
+            android:text="@string/retry_network_request"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

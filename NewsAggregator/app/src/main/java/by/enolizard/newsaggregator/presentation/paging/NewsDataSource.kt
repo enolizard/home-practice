@@ -39,7 +39,7 @@ class NewsDataSource(
     ) {
         _initialState.postValue(State.Loading)
 
-        val initialLoading = newsApi.getFeeds("bitcoin", 1, 15)
+        val initialLoading = newsApi.getFeeds("android", 1, 15)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

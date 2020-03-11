@@ -28,14 +28,13 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:textColor="#7e3ff2"
-            android:textSize="14sp"
+            android:textAppearance="@style/ClickableTextAppearance"
             app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@id/btn_speech"
             app:layout_constraintStart_toEndOf="@+id/iv_source_photo"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Sourcsdfas adsf asdf adss fsadf asd fasdf as f comp" />
+            tools:text="BBC News Boring Company" />
 
         <TextView
             android:id="@+id/tv_published_at"
@@ -43,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textStyle="italic"
+            android:textAppearance="@style/SecondaryTextAppearance"
             app:layout_constraintStart_toEndOf="@+id/iv_source_photo"
             app:layout_constraintTop_toBottomOf="@+id/tv_source_name"
             tools:text="at date" />
@@ -61,16 +60,15 @@
             app:layout_constraintHorizontal_bias="0.948"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:layout_marginEnd="32dp"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TitleTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_source_photo"
@@ -80,6 +78,8 @@
             android:id="@+id/tv_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/PrimaryTextAppearance"
+            android:textSize="14sp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
@@ -87,17 +87,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
-            tools:text="Feed Description" />
-
+            tools:text="Feed Description. dadfas dfs a fljasd fjaskd fj;kasd fj;lasdj f;dlasj fldasj flasdj f;lasdj fkljasd ;fljasd ;fljasd; fjasd;l fjas;dl fj;lasd jf;lasdj fasdgfkj rewqfpbhw vepyvf ehawf" />
 
         <ImageView
             android:id="@+id/iv_photo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_description"
             tools:layout_height="100dp"
-            tools:src="@color/colorAccent" />
+            tools:layout_width="100dp"
+            tools:src="@color/primary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

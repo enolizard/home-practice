@@ -6,20 +6,20 @@
         android:id="@+id/news"
         android:icon="@drawable/ic_news"
         android:orderInCategory="100"
-        android:title="News"
+        android:title="@string/nav_news_category"
         tools:showAsAction="ifRoom" />
     <item
         android:id="@+id/favorite"
         android:icon="@drawable/ic_favorite"
         android:orderInCategory="200"
-        android:title="Favorite"
+        android:title="@string/nav_favorite_category"
         tools:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
         android:orderInCategory="300"
-        android:title="Settings"
+        android:title="@string/nav_settings_category"
         tools:showAsAction="ifRoom" />
 
 </menu>

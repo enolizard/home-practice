@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">News Aggregator</string>
+    <string name="retry_network_request">Try again</string>
+    <string name="error_network_request">Loading error</string>
+    <string name="nav_news_category">News</string>
+    <string name="nav_favorite_category">Favorite</string>
+    <string name="nav_settings_category">Settings</string>
 </resources>
