@@ -1,6 +1,8 @@
 package by.enolizard.newsaggregator.presentation.fragments
 
+import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
@@ -12,14 +14,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.enolizard.newsaggregator.App
+import by.enolizard.newsaggregator.api.response.Feed
 import by.enolizard.newsaggregator.base.PaginatedState
 import by.enolizard.newsaggregator.databinding.NewsFragmentBinding
 import by.enolizard.newsaggregator.presentation.adapters.FeedsPagedAdapter
+import by.enolizard.newsaggregator.presentation.adapters.FeedsPagedAdapter.ClickMode
 import by.enolizard.newsaggregator.presentation.showToast
 import by.enolizard.newsaggregator.presentation.viewmodels.NewsViewModel
 import by.enolizard.newsaggregator.presentation.views.SpaceItemDecoration
 import java.util.*
 import javax.inject.Inject
+
 
 class NewsFragment : Fragment() {
 
@@ -73,8 +78,20 @@ class NewsFragment : Fragment() {
     private fun setupListeners() {
         val feedListAdapter = FeedsPagedAdapter(
             onRetryClick = { viewModel.retry() },
-            onItemSpeechClick = {
-                speaker.speak(it?.description, TextToSpeech.QUEUE_FLUSH, null, null)
+            onItemClick = { feed: Feed?, clickMode: ClickMode ->
+                when (clickMode) {
+                    ClickMode.Speech -> {
+                        speaker.speak(feed?.title, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speaker.speak(feed?.description, TextToSpeech.QUEUE_ADD, null, null)
+                    }
+                    ClickMode.Source -> TODO()
+                    ClickMode.Feed -> {
+                        val i = Intent(Intent.ACTION_VIEW)
+                        i.data = Uri.parse(feed?.url)
+                        startActivity(i)
+                    }
+                }
+
             }
         )
 
@@ -82,7 +99,7 @@ class NewsFragment : Fragment() {
             adapter = feedListAdapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
-            addItemDecoration(SpaceItemDecoration(context, Rect(0, 3, 0, 3)))
+            addItemDecoration(SpaceItemDecoration(context, outRectDp = Rect(0, 3, 0, 3)))
         }
 
         viewModel.initialState.observe(viewLifecycleOwner, Observer {
